@@ -22,8 +22,11 @@ public class Player : MonoBehaviour {
 	private Ray				_ray;
 	private Stat			stats;
 
+	private float			t0;
+
 
 	void Start () {
+		t0 = Time.time;
 		nav = GetComponent<NavMeshAgent> ();
 		anim = GetComponent<Animator>();
 		nav.speed = 8;
@@ -32,7 +35,9 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
-
+		if (anim.GetBool ("dead")) {
+			return;
+		}
 
 		//RAYCAST
 		_ray  = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -73,17 +78,16 @@ public class Player : MonoBehaviour {
 
 		//MOUVEMENTS
 		if (target && Vector3.Distance(transform.position, target.transform.position) < 1.2f) {
-
-
-
-
 			nav.destination = transform.position;
 			Vector3 _direction = (target.transform.position - transform.position);
 			transform.rotation = Quaternion.LookRotation(_direction);
 			if (!anim.GetBool("attacking")) {
 				anim.SetTrigger("attack");
 				anim.SetBool ("attacking", true);
+			}
+			if (Time.time - t0 > 0.5f){
 				stats.DealDamage(target);
+				t0 = Time.time;
 			}
 		}
 		if (transform.position != nav.destination) {
@@ -95,6 +99,11 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKeyDown ("c")) {
 			menuXP.gameObject.SetActive(true);
+		}
+
+		if (GetComponent<Stat>().HP <= 0 && !anim.GetBool("dead")) {
+			anim.SetTrigger("death");
+			anim.SetBool ("dead", true);
 		}
 	}
 

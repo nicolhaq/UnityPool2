@@ -6,12 +6,15 @@ public class Enemy : MonoBehaviour {
 	private GameObject		target = null;
 	private NavMeshAgent	nav;
 	private Animator		anim;
+	private float			t0;
+	private Stat			stats;
 
 	// Use this for initialization
 	void Start () {
 		nav = GetComponent<NavMeshAgent> ();
 		anim = GetComponent<Animator>();
 		nav.speed = 12;
+		stats = GetComponent<Stat> ();
 	}
 	
 	// Update is called once per frame
@@ -33,6 +36,10 @@ public class Enemy : MonoBehaviour {
 					anim.SetBool ("attacking", true);
 					//target.GetComponent<EnemyComportement>().setAttacked();
 				}
+				if (Time.time - t0 > 1f){
+					stats.DealDamage(target);
+					t0 = Time.time;
+				}
 			} else {
 				anim.SetBool ("attacking", false); // <----- /!\
 				// anim.SetBool ("attacking", true);
@@ -42,11 +49,11 @@ public class Enemy : MonoBehaviour {
 
 		// /!\ Walk Annimation broken
 
-		// if (transform.position != nav.destination) {
-		// 	anim.SetBool ("running", true);
-		// } else {
-		// 	anim.SetBool ("running", false);
-		// }
+		if (transform.position != nav.destination) {
+			anim.SetBool ("running", true);
+		} else {
+			anim.SetBool ("running", false);
+		}
 		if (GetComponent<Stat>().HP <= 0 && !anim.GetBool("dead")) {
 			anim.SetTrigger("death");
 			anim.SetBool ("dead", true);

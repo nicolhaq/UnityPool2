@@ -69,6 +69,7 @@ public class MenuStatHandler : MonoBehaviour {
 	}
 
 	public void exitMenu() {
+		Debug.Log ("Close");
 		menu.gameObject.SetActive (false);
 	}
 
