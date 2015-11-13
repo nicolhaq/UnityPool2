@@ -11,28 +11,51 @@ public class MenuStatHandler : MonoBehaviour {
 	private	GameObject		player;
 	private Stat			playerStats;
 	[SerializeField]
+	private Text			lvl;
+	[SerializeField]
 	private Text			str;
 	[SerializeField]
 	private Text			agi;
 	[SerializeField]
 	private Text			con;
 	[SerializeField]
+	private Text			arm;
+	[SerializeField]
 	private Text			pts;
 	[SerializeField]
 	private List<Button>	ups;
-	/*
-	[SerializeField]
-	private Text			con;
 
-*/
+	[SerializeField]
+	private Text			dam;
+	[SerializeField]
+	private Text			hp;
+	[SerializeField]
+	private Text			xp;
+	[SerializeField]
+	private Text			nextXP;
+	[SerializeField]
+	private Text			cre;
+
 	void Start () {
 		playerStats = player.GetComponent<Stat> ();
 		str.text = "Stren. " + playerStats.STR.ToString ();
 		agi.text = "Agility " + playerStats.AGI.ToString ();
 		con.text = "Constit. " + playerStats.CON.ToString ();
-		Debug.Log (playerStats.characs);
+		arm.text = "Armor " + playerStats.Armor.ToString ();
 		pts.text = "UP Pts " + playerStats.characs.ToString ();
+	}
 
+	void Update () {
+		string	min = playerStats.minDamage ().ToString();
+		string	max = playerStats.maxDamage ().ToString();
+		string level = playerStats.level.ToString ();
+
+		lvl.text = "Maya[Lv." + level + "]";
+		dam.text = "Dam. " + min + "-" + max;
+		hp.text = "Health " + playerStats.health ().ToString ();
+		xp.text = "XP " + playerStats.XP.ToString ().ToString ();
+		nextXP.text = "N. XP " + playerStats.expCap ().ToString ();
+		cre.text = "Credits " + playerStats.money.ToString ();
 	}
 
 	void checkRemainingPoints () {
