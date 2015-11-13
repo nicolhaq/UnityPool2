@@ -7,22 +7,32 @@ public class Stat : MonoBehaviour {
 	public int AGI = 10;
 	public int CON = 10;
 	public int Armor = 1;
-	public int minDamage;
-	public int maxDamage;
 	public int XP = 0;
 	public int money;
 	public int HP;
-	private int level;
-	private int expCap;
+	public int level;
+	public int characs;
 
 	// Use this for initialization
 	void Start () {
-		HP = CON * 5;
-		minDamage = STR / 2;
-		maxDamage = maxDamage + 4;
 		level = 1;
-		expCap = 3000 * level;
+		characs = 3;
+	}
 
+	public int health () {
+		return (CON * 5);
+	}
+
+	public int minDamage () {
+		return (STR / 2);
+	}
+
+	public int maxDamage () {
+		return (minDamage() + 4);
+	}
+
+	public int expCap () {
+		return (3000 * level);
 	}
 
 	public int 	Accuracy(Stat Target)
@@ -32,7 +42,7 @@ public class Stat : MonoBehaviour {
 
 	public int baseDamage()
 	{
-		return(Random.Range(minDamage , maxDamage));
+		return(Random.Range(minDamage() , maxDamage()));
 	}
 
 	public int finalDamage(Stat Target)
@@ -42,11 +52,10 @@ public class Stat : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(XP >= expCap)
+		if(XP >= expCap ())
 		{
 			level++;
 			XP = 0;
-			expCap = 3000 * level;
 		}
 	}
 }
