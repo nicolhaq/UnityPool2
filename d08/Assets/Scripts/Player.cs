@@ -38,10 +38,14 @@ public class Player : MonoBehaviour {
 				}
 			}
 		}
+		if (target)
+			nav.destination = target.transform.position;
 
 		//MOUVEMENTS
 		if (target && Vector3.Distance(transform.position, target.transform.position) < 1.2f) {
 			nav.destination = transform.position;
+			Vector3 _direction = (target.transform.position - transform.position);
+			transform.rotation = Quaternion.LookRotation(_direction);
 			if (!anim.GetBool("attacking")) {
 				anim.SetTrigger("attack");
 				anim.SetBool ("attacking", true);
