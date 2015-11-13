@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyComportement : MonoBehaviour {
 
-	private int hp;
+	public int hp;
 	public GameObject maya;
 	private Animator	anim;
 
@@ -13,9 +13,6 @@ public class EnemyComportement : MonoBehaviour {
 		anim = GetComponent<Animator>();
 	}
 
-	public void setAttacked () {
-		hp -= 1;
-	}
 	
 	// Update is called once per frame
 	void Update () {
