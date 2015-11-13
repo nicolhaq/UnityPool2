@@ -17,6 +17,18 @@ public class Player : MonoBehaviour {
 		target = null;
 	}
 	
+	void DealDamage(GameObject taget)
+	{
+		Stat targStat = target.GetComponent<Stat>();
+		if(Random.Range(0,100) <= GetComponent<Stat>().Accuracy(targStat))
+		{
+			target.GetComponent<Stat>().HP = targStat.HP - GetComponent<Stat>().finalDamage(targStat);
+		}
+		else
+			Debug.Log("miss");
+
+	}
+
 	void Update () {
 
 
@@ -31,6 +43,7 @@ public class Player : MonoBehaviour {
 				if (_rayHit.collider.gameObject.layer == LayerMask.NameToLayer("Zombie")) {
 					target = _rayHit.collider.gameObject;
 					nav.destination = target.transform.position;
+					DealDamage(target);
 				}
 				else {
 					nav.destination = point;
@@ -49,7 +62,7 @@ public class Player : MonoBehaviour {
 			if (!anim.GetBool("attacking")) {
 				anim.SetTrigger("attack");
 				anim.SetBool ("attacking", true);
-				target.GetComponent<EnemyComportement>().setAttacked();
+				target.GetComponent<Stat>();
 			}
 		}
 		if (transform.position != nav.destination) {
