@@ -42,5 +42,11 @@ public class Stat : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if(XP >= expCap)
+		{
+			level++;
+			exp = 0;
+			expCap = 3000 * level;
+		}
 	}
 }
