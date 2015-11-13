@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -10,9 +11,17 @@ public class Player : MonoBehaviour {
 	private Animator		anim;
 	private GameObject		target;
 
+	public Slider			HpSlider;
+	public Text				HPText;
+	public Text				LvlText;
+	public Text				Name;
+
+	public GameObject		Panel;
+
 	private RaycastHit		_rayHit;
 	private Ray				_ray;
 	private Stat			stats;
+
 
 	void Start () {
 		nav = GetComponent<NavMeshAgent> ();
@@ -43,11 +52,31 @@ public class Player : MonoBehaviour {
 				}
 			}
 		}
-		if (target)
+		if (target) {
+			//SLIDER
+			Stat 		script;
+
+			script = target.GetComponent<Stat> ();
+
+			float hp = (float)script.HP / (float)script.maxHealth () * 100;
+			HpSlider.GetComponent<Slider>().value = hp;
+			HPText.GetComponent<Text> ().text = script.HP.ToString ();
+
+			LvlText.GetComponent<Text>().text = "Lvl " + script.level;
+			Name.GetComponent<Text>().text = "zombie";
 			nav.destination = target.transform.position;
+			Panel.SetActive(true);
+		}
+		else {
+			Panel.SetActive(false);
+		}
 
 		//MOUVEMENTS
 		if (target && Vector3.Distance(transform.position, target.transform.position) < 1.2f) {
+
+
+
+
 			nav.destination = transform.position;
 			Vector3 _direction = (target.transform.position - transform.position);
 			transform.rotation = Quaternion.LookRotation(_direction);

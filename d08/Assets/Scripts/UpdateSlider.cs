@@ -7,7 +7,8 @@ public class UpdateSlider : MonoBehaviour {
 	public Slider		HpSlider;
 	public Slider		XpSlider;
 	public Text			HPText;
-	private Stat script;
+	public Text			LvlText;
+	private Stat 		script;
 
 	void Start () {
 		script = GetComponent<Stat> ();
@@ -20,5 +21,7 @@ public class UpdateSlider : MonoBehaviour {
 
 		float xp = (float)script.XP / (float)script.expCap () * 100;
 		XpSlider.GetComponent<Slider>().value = xp;
+
+		LvlText.GetComponent<Text>().text = "Lvl " + script.level;
 	}
 }
