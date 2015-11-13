@@ -45,7 +45,7 @@ public class Stat : MonoBehaviour {
 		if(XP >= expCap)
 		{
 			level++;
-			exp = 0;
+			XP = 0;
 			expCap = 3000 * level;
 		}
 	}
