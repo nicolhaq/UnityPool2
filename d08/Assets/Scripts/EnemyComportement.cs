@@ -16,7 +16,7 @@ public class EnemyComportement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (hp == 0 && !anim.GetBool("dead")) {
+		if (GetComponent<Stat>().HP == 0 && !anim.GetBool("dead")) {
 			anim.SetTrigger("death");
 			anim.SetBool ("dead", true);
 		}
