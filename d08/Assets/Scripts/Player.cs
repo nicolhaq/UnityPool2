@@ -3,13 +3,13 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	
-	public float			distance  = 4.5f;
-	public GameObject 		map;
 	private NavMeshAgent	nav;
 	private Animator		anim;
 	private GameObject		target;
-	
-	// Use this for initialization
+
+	private RaycastHit		_rayHit;
+	private Ray				_ray;
+
 	void Start () {
 		nav = GetComponent<NavMeshAgent> ();
 		anim = GetComponent<Animator>();
@@ -17,25 +17,31 @@ public class Player : MonoBehaviour {
 		target = null;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0)) {
-			Ray			ray  = Camera.main.ScreenPointToRay(Input.mousePosition);
-			Vector3		point = ray.origin + (ray.direction * distance);
-			RaycastHit	hit;
 
-			anim.SetBool ("attacking", false);
-			if (Physics.Raycast(ray, out hit)) {
-				if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Zombie")) {
-					target = hit.collider.gameObject;
+
+		//RAYCAST
+		_ray  = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Debug.DrawRay(_ray.origin, _ray.direction * 10f, Color.red);
+
+		if (Input.GetMouseButtonDown (0)) {
+			// anim.SetBool ("attacking", false);
+			if (Physics.Raycast(_ray, out _rayHit)) {
+				Vector3		point = _rayHit.point;
+				if (_rayHit.collider.gameObject.layer == LayerMask.NameToLayer("Zombie")) {
+					target = _rayHit.collider.gameObject;
 					nav.destination = target.transform.position;
-				} else {
+				}
+				else {
 					nav.destination = point;
 					target = null;
 				}
 			}
 		}
-		if (target && Vector3.Distance(transform.position, target.transform.position) < 3) {
+
+		//MOUVEMENTS
+		if (target && Vector3.Distance(transform.position, target.transform.position) < 1.2f) {
+			nav.destination = transform.position;
 			if (!anim.GetBool("attacking")) {
 				anim.SetTrigger("attack");
 				anim.SetBool ("attacking", true);
@@ -43,6 +49,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 		if (transform.position != nav.destination) {
+			anim.SetBool ("attacking", false);
 			anim.SetBool ("running", true);
 		} else {
 			anim.SetBool ("running", false);
