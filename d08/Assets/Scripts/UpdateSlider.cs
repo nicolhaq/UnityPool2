@@ -3,12 +3,22 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class UpdateSlider : MonoBehaviour {
-
+	
 	public Slider		HpSlider;
 	public Slider		XpSlider;
+	public Text			HPText;
+	private Stat script;
+
+	void Start () {
+		script = GetComponent<Stat> ();
+	}
 
 	void Update () {
-		HpSlider.GetComponent<Slider>().value = GetComponent(Stat).HP;
-		XpSlider.GetComponent<Slider>().value = GetComponent(Stat).XP;
+		float hp = (float)script.HP / (float)script.maxHealth () * 100;
+		HpSlider.GetComponent<Slider>().value = hp;
+		HPText.GetComponent<Text> ().text = script.HP.ToString ();
+
+		float xp = (float)script.XP / (float)script.expCap () * 100;
+		XpSlider.GetComponent<Slider>().value = xp;
 	}
 }

@@ -52,7 +52,7 @@ public class MenuStatHandler : MonoBehaviour {
 
 		lvl.text = "Maya[Lv." + level + "]";
 		dam.text = "Dam. " + min + "-" + max;
-		hp.text = "Health " + playerStats.health ().ToString ();
+		hp.text = "Health " + playerStats.HP.ToString ();
 		xp.text = "XP " + playerStats.XP.ToString ().ToString ();
 		nextXP.text = "N. XP " + playerStats.expCap ().ToString ();
 		cre.text = "Credits " + playerStats.money.ToString ();

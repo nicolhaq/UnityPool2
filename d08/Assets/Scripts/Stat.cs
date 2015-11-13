@@ -17,9 +17,10 @@ public class Stat : MonoBehaviour {
 	void Start () {
 		level = 1;
 		characs = 3;
+		HP = maxHealth ();
 	}
 
-	public int health () {
+	public int maxHealth () {
 		return (CON * 5);
 	}
 
