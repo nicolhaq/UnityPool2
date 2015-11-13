@@ -46,9 +46,10 @@ public class Stat : MonoBehaviour {
 		return(Random.Range(minDamage() , maxDamage()));
 	}
 
-	public int finalDamage(Stat Target)
+	public int finalDamage(GameObject target)
 	{
-		 return(baseDamage() * (1 - Target.Armor/200));
+
+		 return(baseDamage() * (1 - target.GetComponent<Stat>().Armor/200));
 	}
 
 	// Update is called once per frame
@@ -59,4 +60,20 @@ public class Stat : MonoBehaviour {
 			XP = 0;
 		}
 	}
+
+	public void DealDamage(GameObject target) {
+		Stat stat = target.GetComponent<Stat>();
+
+		if(Random.Range(0, 100) <= Accuracy(stat))
+		{
+			stat.HP -= finalDamage(target);
+			if (stat.HP <= 0) {
+				XP += stat.XP;
+				stat.XP = 0;
+				money += stat.money;
+				stat.money = 0;
+			}
+		}
+	}
+
 }

@@ -17,6 +17,10 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (anim.GetBool ("dead")) {
+			return;
+		}
+
 		//ATTACK player
 		if (target) {
 			nav.destination = target.transform.position;
@@ -43,6 +47,10 @@ public class Enemy : MonoBehaviour {
 		// } else {
 		// 	anim.SetBool ("running", false);
 		// }
+		if (GetComponent<Stat>().HP <= 0 && !anim.GetBool("dead")) {
+			anim.SetTrigger("death");
+			anim.SetBool ("dead", true);
+		}
 	}
 
 	void OnTriggerEnter (Collider coll) {

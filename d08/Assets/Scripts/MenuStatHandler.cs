@@ -69,7 +69,7 @@ public class MenuStatHandler : MonoBehaviour {
 	}
 
 	public void exitMenu() {
-		menu.enabled = false;
+		menu.gameObject.SetActive (false);
 	}
 
 	public void unpgradeStrength () {

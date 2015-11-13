@@ -1,32 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
-	
+
+	[SerializeField]
+	private Canvas			menuXP;
 	private NavMeshAgent	nav;
 	private Animator		anim;
 	private GameObject		target;
 
 	private RaycastHit		_rayHit;
 	private Ray				_ray;
+	private Stat			stats;
 
 	void Start () {
 		nav = GetComponent<NavMeshAgent> ();
 		anim = GetComponent<Animator>();
 		nav.speed = 8;
 		target = null;
-	}
-	
-	void DealDamage(GameObject taget)
-	{
-		Stat targStat = target.GetComponent<Stat>();
-		if(Random.Range(0,100) <= GetComponent<Stat>().Accuracy(targStat))
-		{
-			target.GetComponent<Stat>().HP = targStat.HP - GetComponent<Stat>().finalDamage(targStat);
-		}
-		else
-			Debug.Log("miss");
-
+		stats = GetComponent<Stat> ();
 	}
 
 	void Update () {
@@ -43,7 +36,6 @@ public class Player : MonoBehaviour {
 				if (_rayHit.collider.gameObject.layer == LayerMask.NameToLayer("Zombie")) {
 					target = _rayHit.collider.gameObject;
 					nav.destination = target.transform.position;
-					DealDamage(target);
 				}
 				else {
 					nav.destination = point;
@@ -62,7 +54,7 @@ public class Player : MonoBehaviour {
 			if (!anim.GetBool("attacking")) {
 				anim.SetTrigger("attack");
 				anim.SetBool ("attacking", true);
-				target.GetComponent<Stat>();
+				stats.DealDamage(target);
 			}
 		}
 		if (transform.position != nav.destination) {
@@ -70,6 +62,10 @@ public class Player : MonoBehaviour {
 			anim.SetBool ("running", true);
 		} else {
 			anim.SetBool ("running", false);
+		}
+
+		if (Input.GetKeyDown ("c")) {
+			menuXP.gameObject.SetActive(true);
 		}
 	}
 
