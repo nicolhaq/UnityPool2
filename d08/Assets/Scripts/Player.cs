@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
 			if (!anim.GetBool("attacking")) {
 				anim.SetTrigger("attack");
 				anim.SetBool ("attacking", true);
+				target.GetComponent<EnemyComportement>().setAttacked();
 			}
 		}
 		if (transform.position != nav.destination) {
