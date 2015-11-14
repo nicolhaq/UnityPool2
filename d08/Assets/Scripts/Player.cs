@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
-		if (anim.GetBool ("dead")) {
+		if (anim.GetBool ("dead") || menuXP.gameObject.active) {
 			return;
 		}
 

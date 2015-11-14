@@ -19,7 +19,6 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		if (anim.GetBool ("dead")) {
 			return;
 		}
@@ -34,15 +33,13 @@ public class Enemy : MonoBehaviour {
 				if (!anim.GetBool("attacking")) {
 					anim.SetTrigger("attack");
 					anim.SetBool ("attacking", true);
-					//target.GetComponent<EnemyComportement>().setAttacked();
 				}
 				if (Time.time - t0 > 1f){
 					stats.DealDamage(target);
 					t0 = Time.time;
 				}
 			} else {
-				anim.SetBool ("attacking", false); // <----- /!\
-				// anim.SetBool ("attacking", true);
+				anim.SetBool ("attacking", false);
 			}
 		}
 
